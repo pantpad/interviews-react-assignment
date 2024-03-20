@@ -1,6 +1,6 @@
 import { CardMedia, CardContent, Typography } from "@mui/material";
 
-import { Product } from "../Products";
+import { Product } from "./ProductType";
 
 type ProductContentType = {
   product: Product;

@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
-import { Product } from "../Products";
-import ProductItem from "./Product";
+import { Product } from "./Product/ProductType";
+import ProductItem from "./Product/Product";
 
 type ProductListType = {
   products: Product[];

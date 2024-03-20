@@ -1,7 +1,7 @@
 import { Card, Grid } from "@mui/material";
 
-import { HeavyComponent } from "../HeavyComponent.tsx";
-import { Product } from "../Products.tsx";
+import { HeavyComponent } from "../../HeavyComponent.tsx";
+import { Product } from "./ProductType.ts";
 
 import ProductActions from "./ProductActions.tsx";
 import ProductContent from "./ProductContent.tsx";

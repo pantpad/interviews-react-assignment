@@ -2,22 +2,14 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import ProductList from "./components/ProductsList.tsx";
-
-export type Product = {
-  id: number;
-  name: string;
-  imageUrl: string;
-  price: number;
-  category: string;
-  itemInCart: number;
-  loading: boolean;
-};
+import { Product } from "./components/Product/ProductType.ts";
 
 export type Cart = {
   items: Product[];
   totalPrice: number;
   totalItems: number;
 };
+
 export const Products = ({
   onCartChange,
 }: {
