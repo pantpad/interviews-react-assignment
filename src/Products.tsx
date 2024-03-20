@@ -16,7 +16,9 @@ export const Products = ({
   onCartChange: (cart: Cart) => void;
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
+
   console.log("sto partendo");
+
   useEffect(() => {
     fetch("/products?limit=200")
       .then((response) => response.json())
@@ -24,6 +26,9 @@ export const Products = ({
   }, []);
 
   function addToCart(productId: number, quantity: number) {
+    //toggle current product loading state to true in order to:
+    //disable further button pression
+    //make spinner load
     setProducts(
       products.map((product) => {
         if (product.id === productId) {
@@ -35,7 +40,8 @@ export const Products = ({
         return product;
       })
     );
-
+    //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
+    //inside we also toggle the current product loadingState to false.
     fetch("/cart", {
       method: "POST",
       headers: {
@@ -61,8 +67,10 @@ export const Products = ({
       }
     });
   }
+
   console.log("products");
   console.log(products[33]);
+
   return (
     <Box overflow="scroll" height="100%">
       <ProductList products={products} addToCart={addToCart} />
