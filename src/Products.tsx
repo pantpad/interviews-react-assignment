@@ -35,7 +35,7 @@ export const Products = ({
   onCartChange: (cart: Cart) => void;
 }) => {
   const [products, setProducts] = useState<Product[]>([]);
-
+  console.log("sto partendo");
   useEffect(() => {
     fetch("/products?limit=200")
       .then((response) => response.json())
@@ -54,6 +54,7 @@ export const Products = ({
         return product;
       })
     );
+
     fetch("/cart", {
       method: "POST",
       headers: {
@@ -79,7 +80,8 @@ export const Products = ({
       }
     });
   }
-
+  console.log("products");
+  console.log(products[33]);
   return (
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2}>
@@ -130,11 +132,9 @@ export const Products = ({
                   >
                     <RemoveIcon fontSize="small" />
                   </IconButton>
-
                   <Typography variant="body1" component="div" mx={1}>
                     {product.itemInCart || 0}
                   </Typography>
-
                   <IconButton
                     disabled={product.loading}
                     aria-label="add"
