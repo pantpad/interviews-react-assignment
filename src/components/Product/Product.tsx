@@ -14,10 +14,10 @@ type ProductItemType = {
 export default function ProductItem({ product, addToCart }: ProductItemType) {
   return (
     <>
-      <Grid key={product.id} item xs={4}>
+      <Grid item xs={4}>
         {/* Do not remove this */}
         <HeavyComponent />
-        <Card key={product.id} style={{ width: "100%" }}>
+        <Card style={{ width: "100%" }}>
           <ProductContent product={product} />
           <ProductActions product={product} addToCart={addToCart} />
         </Card>
