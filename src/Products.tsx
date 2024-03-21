@@ -76,7 +76,7 @@ export const Products = ({
   console.log("products");
   console.log(products[33]);
 
-  if (error) return <p>error...</p>;
+  if (error) return <p>error... {error.toString()}</p>;
   if (isLoading) return <p>is loading...</p>;
 
   return (
