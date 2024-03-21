@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
 import ProductList from "./components/ProductsList.tsx";
-import { Product } from "./components/Product/ProductType.ts";
+import { Product } from "./types/ProductType.ts";
 
 export type Cart = {
   items: Product[];
