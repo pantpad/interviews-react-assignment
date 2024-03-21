@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { Box } from "@mui/material";
 
 import ProductList from "./components/ProductsList.tsx";
@@ -15,15 +15,20 @@ export const Products = ({
 }: {
   onCartChange: (cart: Cart) => void;
 }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const {
+    data: products,
+    isLoading,
+    error,
+    setData: setProducts,
+  } = useFetchProducts();
 
-  console.log("sto partendo");
+  console.log("products");
 
-  useEffect(() => {
-    fetch("/products?limit=200")
-      .then((response) => response.json())
-      .then((data) => setProducts(data.products));
-  }, []);
+  // useEffect(() => {
+  //   fetch("/products?limit=200")
+  //     .then((response) => response.json())
+  //     .then((data) => setProducts(data.products));
+  // }, []);
 
   function addToCart(productId: number, quantity: number) {
     //toggle current product loading state to true in order to:
@@ -70,6 +75,9 @@ export const Products = ({
 
   console.log("products");
   console.log(products[33]);
+
+  if (error) return <p>error...</p>;
+  if (isLoading) return <p>is loading...</p>;
 
   return (
     <Box overflow="scroll" height="100%">

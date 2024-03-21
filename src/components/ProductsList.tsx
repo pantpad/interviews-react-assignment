@@ -8,6 +8,7 @@ type ProductListType = {
 };
 
 export default function ProductList({ products, addToCart }: ProductListType) {
+  console.log(products);
   return (
     <Grid container spacing={2} p={2}>
       {products.map((product) => (
