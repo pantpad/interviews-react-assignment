@@ -1,5 +1,7 @@
-import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { Box } from "@mui/material";
+
+import useFetchProducts from "./hooks/useFetchProducts.tsx";
+import { fetchProducts } from "./utils/endpoits.ts";
 
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
@@ -20,7 +22,7 @@ export const Products = ({
     isLoading,
     error,
     setData: setProducts,
-  } = useFetchProducts();
+  } = useFetchProducts(fetchProducts);
 
   // useEffect(() => {
   //   fetch("/products?limit=200")

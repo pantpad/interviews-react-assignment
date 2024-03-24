@@ -1,5 +1,5 @@
 import { Product, ProductResponse } from "../types/ProductType";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function useFetchProducts(
   fetchFn: (page?: number, limit?: number) => Promise<ProductResponse>,
@@ -10,12 +10,12 @@ export default function useFetchProducts(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | Error>("");
 
-  useEffect(() => {
+  const fetchProducts = useCallback(
     async function fetchProducts() {
       setIsLoading(true);
       try {
+        setError("");
         const data = await fetchFn(page, limit);
-        console.log(data);
         setData(data.products);
       } catch (err) {
         let message;
@@ -27,10 +27,13 @@ export default function useFetchProducts(
       } finally {
         setIsLoading(false);
       }
-    }
+    },
+    [page, limit]
+  );
 
+  useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
 
   return { data, isLoading, error, setData };
 }
