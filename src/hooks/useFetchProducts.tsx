@@ -20,7 +20,13 @@ export default function useFetchProducts(
         if (!responseData.hasMore) {
           setHasMore(false);
         }
-        setData(responseData.products);
+        if (data.length > 0) {
+          setData((prevData) => {
+            return [...prevData, ...responseData.products];
+          });
+        } else {
+          setData(responseData.products);
+        }
       } catch (err) {
         let message;
 
