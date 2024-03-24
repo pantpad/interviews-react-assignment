@@ -16,11 +16,11 @@ export default function useFetchProducts(
       setIsLoading(true);
       try {
         setError("");
-        const data = await fetchFn(page, limit);
-        if (!data.hasMore) {
+        const responseData = await fetchFn(page, limit);
+        if (!responseData.hasMore) {
           setHasMore(false);
         }
-        setData(data.products);
+        setData(responseData.products);
       } catch (err) {
         let message;
 
