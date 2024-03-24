@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Box } from "@mui/material";
 
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
@@ -5,7 +7,6 @@ import { fetchProducts } from "./utils/endpoits.ts";
 
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
-import { useState } from "react";
 
 const ITEMS_PER_PAGE = 10;
 
