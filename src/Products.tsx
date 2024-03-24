@@ -81,7 +81,8 @@ export const Products = ({
   }
 
   if (error) return <p>error... {error.toString()}</p>;
-  if (isLoading && products.length === 0) return <p>is loading...</p>;
+  if (isLoading && products.length === 0)
+    return <CircularProgress size={100} />;
 
   function loadMore() {
     setPage((prevPage) => prevPage + 1);
@@ -91,7 +92,7 @@ export const Products = ({
     <Box overflow="scroll" height="100%">
       <ProductList products={products} addToCart={addToCart} />
       <Box display="flex" justifyContent="center" mt={2}>
-        {isLoading && <CircularProgress className="center" size={40} />}
+        {isLoading && <CircularProgress size={40} />}
         {hasMore && !isLoading && <button onClick={loadMore}>Load More</button>}
       </Box>
     </Box>
