@@ -80,7 +80,9 @@ export const Products = ({
   if (error) return <p>error... {error.toString()}</p>;
   if (isLoading) return <p>is loading...</p>;
 
-  function loadMore() {}
+  function loadMore() {
+    setPage((prevPage) => prevPage + 1);
+  }
 
   return (
     <Box overflow="scroll" height="100%">
