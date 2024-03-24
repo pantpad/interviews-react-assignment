@@ -7,6 +7,7 @@ import { fetchProducts } from "./utils/endpoits.ts";
 
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
+import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -29,6 +30,17 @@ export const Products = ({
     setData: setProducts,
     hasMore,
   } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
+
+  function loadMore() {
+    setPage((prevPage) => prevPage + 1);
+  }
+
+  //if last element is visible + there are more products to load + it is not currently loading other things
+  //then fire the load more callback
+  const lastElement = useIntersectionObserver<HTMLDivElement>(loadMore, [
+    !isLoading,
+    hasMore,
+  ]);
 
   //not needed anymore, logic has been placed inside useFetchProducts hooks
   // useEffect(() => {
@@ -84,16 +96,12 @@ export const Products = ({
   if (isLoading && products.length === 0)
     return <CircularProgress size={100} />;
 
-  function loadMore() {
-    setPage((prevPage) => prevPage + 1);
-  }
-
   return (
     <Box overflow="scroll" height="100%">
       <ProductList products={products} addToCart={addToCart} />
       <Box display="flex" justifyContent="center" mt={2}>
         {isLoading && <CircularProgress size={40} />}
-        {hasMore && !isLoading && <button onClick={loadMore}>Load More</button>}
+        <div ref={lastElement}></div>
       </Box>
     </Box>
   );
