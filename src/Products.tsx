@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { fetchProducts } from "./utils/endpoits.ts";
@@ -30,6 +30,7 @@ export const Products = ({
     hasMore,
   } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
 
+  //not needed anymore, logic has been placed inside useFetchProducts hooks
   // useEffect(() => {
   //   fetch("/products?limit=200")
   //     .then((response) => response.json())
@@ -89,7 +90,10 @@ export const Products = ({
   return (
     <Box overflow="scroll" height="100%">
       <ProductList products={products} addToCart={addToCart} />
-      <button onClick={loadMore}>Load More</button>
+      <Box display="flex" justifyContent="center" mt={2}>
+        {isLoading && <CircularProgress className="center" size={40} />}
+        {hasMore && !isLoading && <button onClick={loadMore}>Load More</button>}
+      </Box>
     </Box>
   );
 };
