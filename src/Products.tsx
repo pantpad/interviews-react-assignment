@@ -5,6 +5,9 @@ import { fetchProducts } from "./utils/endpoits.ts";
 
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
+import { useState } from "react";
+
+const ITEMS_PER_PAGE = 10;
 
 export type Cart = {
   items: Product[];
@@ -17,12 +20,13 @@ export const Products = ({
 }: {
   onCartChange: (cart: Cart) => void;
 }) => {
+  const [page, setPage] = useState(0);
   const {
     data: products,
     isLoading,
     error,
     setData: setProducts,
-  } = useFetchProducts(fetchProducts);
+  } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
 
   // useEffect(() => {
   //   fetch("/products?limit=200")
@@ -76,9 +80,12 @@ export const Products = ({
   if (error) return <p>error... {error.toString()}</p>;
   if (isLoading) return <p>is loading...</p>;
 
+  function loadMore() {}
+
   return (
     <Box overflow="scroll" height="100%">
       <ProductList products={products} addToCart={addToCart} />
+      <button onClick={loadMore}>Load More</button>
     </Box>
   );
 };
