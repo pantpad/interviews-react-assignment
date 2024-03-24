@@ -22,8 +22,6 @@ export const Products = ({
     setData: setProducts,
   } = useFetchProducts();
 
-  console.log("products");
-
   // useEffect(() => {
   //   fetch("/products?limit=200")
   //     .then((response) => response.json())
@@ -72,9 +70,6 @@ export const Products = ({
       }
     });
   }
-
-  console.log("products");
-  console.log(products[33]);
 
   if (error) return <p>error... {error.toString()}</p>;
   if (isLoading) return <p>is loading...</p>;
