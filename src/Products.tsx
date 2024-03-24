@@ -26,6 +26,7 @@ export const Products = ({
     isLoading,
     error,
     setData: setProducts,
+    hasMore,
   } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
 
   // useEffect(() => {
@@ -78,7 +79,7 @@ export const Products = ({
   }
 
   if (error) return <p>error... {error.toString()}</p>;
-  if (isLoading) return <p>is loading...</p>;
+  if (isLoading && products.length === 0) return <p>is loading...</p>;
 
   function loadMore() {
     setPage((prevPage) => prevPage + 1);

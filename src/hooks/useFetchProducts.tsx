@@ -9,6 +9,7 @@ export default function useFetchProducts(
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | Error>("");
+  const [hasMore, setHasMore] = useState(true);
 
   const fetchProducts = useCallback(
     async function fetchProducts() {
@@ -16,6 +17,9 @@ export default function useFetchProducts(
       try {
         setError("");
         const data = await fetchFn(page, limit);
+        if (!data.hasMore) {
+          setHasMore(false);
+        }
         setData(data.products);
       } catch (err) {
         let message;
@@ -35,5 +39,5 @@ export default function useFetchProducts(
     fetchProducts();
   }, [fetchProducts]);
 
-  return { data, isLoading, error, setData };
+  return { data, isLoading, error, setData, hasMore };
 }
