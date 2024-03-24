@@ -10,7 +10,24 @@ export default function useIntersectionObserver<T extends HTMLElement>(
 ) {
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const ref = useCallback(() => {}, []);
+  const ref = useCallback(
+    (node: T) => {
+      if (deps.every(Boolean)) {
+        //disconnect the previous observer
+        observer.current?.disconnect();
+        //create new observer, select the first entry (our only dom element in this case) and executes callback if it is intersecting
+        observer.current = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            callback();
+          }
+        });
+        if (node) {
+          observer.current.observe(node);
+        }
+      }
+    },
+    [callback, deps]
+  );
 
   return ref;
 }
