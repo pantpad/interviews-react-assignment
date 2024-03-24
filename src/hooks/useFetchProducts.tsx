@@ -12,7 +12,7 @@ export default function useFetchProducts() {
     async function fetchProducts() {
       setIsLoading(true);
       try {
-        const data = await fetchFN();
+        const data = await fetchFN(1, 1);
         console.log(data);
         setData(data.products);
       } catch (err) {
