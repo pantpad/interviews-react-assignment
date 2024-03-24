@@ -7,3 +7,9 @@ export type Product = {
   itemInCart: number;
   loading: boolean;
 };
+
+export type ProductResponse = {
+  products: Product[];
+  total: number;
+  hasMore: boolean;
+};

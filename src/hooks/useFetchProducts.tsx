@@ -1,8 +1,8 @@
-import { Product } from "../types/ProductType";
+import { Product, ProductResponse } from "../types/ProductType";
 import { useEffect, useState } from "react";
 
 export default function useFetchProducts(
-  fetchFn: (page?: number, limit?: number) => Promise<Product[]>
+  fetchFn: (page?: number, limit?: number) => Promise<ProductResponse>
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
