@@ -1,9 +1,9 @@
 import { Product } from "../types/ProductType";
 import { useEffect, useState } from "react";
 
-import { fetchProducts as fetchFN } from "../utils/endpoits";
-
-export default function useFetchProducts() {
+export default function useFetchProducts(
+  fetchFn: (page?: number, limit?: number) => Promise<Product[]>
+) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | Error>("");
@@ -12,7 +12,7 @@ export default function useFetchProducts() {
     async function fetchProducts() {
       setIsLoading(true);
       try {
-        const data = await fetchFN(1, 1);
+        const data = await fetchFn(1, 1);
         console.log(data);
         setData(data.products);
       } catch (err) {
