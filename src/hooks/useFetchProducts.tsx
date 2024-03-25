@@ -14,19 +14,13 @@ export default function useFetchProducts(
   const fetchProducts = useCallback(
     async function fetchProducts() {
       setIsLoading(true);
+      setError("");
       try {
-        setError("");
         const responseData = await fetchFn(page, limit);
         if (!responseData.hasMore) {
           setHasMore(false);
         }
-        if (data.length > 0) {
-          setData((prevData) => {
-            return [...prevData, ...responseData.products];
-          });
-        } else {
-          setData(responseData.products);
-        }
+        setData((prev) => [...prev, ...responseData.products]);
       } catch (err) {
         let message;
 

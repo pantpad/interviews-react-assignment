@@ -9,7 +9,7 @@ import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 
-const ITEMS_PER_PAGE = 1;
+const ITEMS_PER_PAGE = 10;
 
 export type Cart = {
   items: Product[];
