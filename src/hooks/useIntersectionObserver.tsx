@@ -22,7 +22,6 @@ export default function useIntersectionObserver<T extends HTMLElement>(
         //create new observer, select the first entry (our only dom element in this case) and executes callback if it is intersecting
         observer.current = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
-            console.log("ciao");
             callback();
           }
         }, options);

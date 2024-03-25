@@ -92,7 +92,12 @@ export const Products = ({
     });
   }
 
-  if (error) return <p>error... {error.toString()}</p>;
+  if (error)
+    return (
+      <p onLoad={() => console.log(error.toString())}>
+        error... check the console for more details
+      </p>
+    );
   if (isLoading && products.length === 0)
     return <CircularProgress size={100} />;
 
@@ -108,19 +113,7 @@ export const Products = ({
           mt={2}
         >
           {isLoading && <CircularProgress size={40} />}
-          {!isLoading && (
-            <div
-              ref={lastElement}
-              style={{
-                backgroundColor: "red",
-                height: "100px",
-                position: "absolute",
-                bottom: "0",
-              }}
-            >
-              {<p>I'm visible</p>}
-            </div>
-          )}
+          {!isLoading && <div ref={lastElement}></div>}
         </Box>
       </Box>
     </>

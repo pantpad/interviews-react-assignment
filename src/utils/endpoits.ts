@@ -1,9 +1,9 @@
-const productAPI = "/products";
+const productAPI = "/proucts";
 
 export async function fetchProducts(page: number = 0, limit: number = 10) {
   //avoid intersectionObserver to fire too many times on page load
-  if (limit < 9) {
-    limit = 10;
+  if (limit < 11) {
+    limit = 12;
   }
 
   const response = await fetch(`${productAPI}?page=${page}&limit=${limit}`);
