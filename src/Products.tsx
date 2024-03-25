@@ -1,48 +1,59 @@
-import { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
-  Typography,
-  CircularProgress,
-} from "@mui/material";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
-import { HeavyComponent } from "./HeavyComponent.tsx";
+import { useState } from "react";
 
-export type Product = {
-  id: number;
-  name: string;
-  imageUrl: string;
-  price: number;
-  category: string;
-  itemInCart: number;
-  loading: boolean;
-};
+import { Box, CircularProgress } from "@mui/material";
+
+import useFetchProducts from "./hooks/useFetchProducts.tsx";
+import { fetchProducts } from "./utils/endpoits.ts";
+
+import ProductList from "./components/ProductsList.tsx";
+import { Product } from "./types/ProductType.ts";
+import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
+import Error from "./components/Error.tsx";
+
+const ITEMS_PER_PAGE = 10;
 
 export type Cart = {
   items: Product[];
   totalPrice: number;
   totalItems: number;
 };
+
 export const Products = ({
   onCartChange,
 }: {
   onCartChange: (cart: Cart) => void;
 }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(0);
+  const {
+    data: products,
+    isLoading,
+    error,
+    setData: setProducts,
+    hasMore,
+  } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
 
-  useEffect(() => {
-    fetch("/products?limit=200")
-      .then((response) => response.json())
-      .then((data) => setProducts(data.products));
-  }, []);
+  function loadMore() {
+    setPage((prevPage) => prevPage + 1);
+  }
+
+  //if last element is visible + there are more products to load + it is not currently loading other things
+  //then fire the load more callback
+  const lastElement = useIntersectionObserver<HTMLDivElement>(loadMore, [
+    !isLoading,
+    hasMore,
+  ]);
+
+  //not needed anymore, logic has been placed inside useFetchProducts hooks
+  // useEffect(() => {
+  //   fetch("/products?limit=200")
+  //     .then((response) => response.json())
+  //     .then((data) => setProducts(data.products));
+  // }, []);
 
   function addToCart(productId: number, quantity: number) {
+    //toggle current product loading state to true in order to:
+    //disable further button pression
+    //make spinner load
     setProducts(
       products.map((product) => {
         if (product.id === productId) {
@@ -54,6 +65,8 @@ export const Products = ({
         return product;
       })
     );
+    //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
+    //inside we also toggle the current product loadingState to false.
     fetch("/cart", {
       method: "POST",
       headers: {
@@ -80,75 +93,28 @@ export const Products = ({
     });
   }
 
+  if (error) return <Error />;
+  if (isLoading && products.length === 0)
+    return <CircularProgress size={100} />;
+
   return (
-    <Box overflow="scroll" height="100%">
-      <Grid container spacing={2} p={2}>
-        {products.map((product) => (
-          <Grid key={product.id} item xs={4}>
-            {/* Do not remove this */}
-            <HeavyComponent />
-            <Card key={product.id} style={{ width: "100%" }}>
-              <CardMedia
-                component="img"
-                height="150"
-                image={product.imageUrl}
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6" component="div">
-                  {product.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Typography variant="h6" component="div">
-                  ${product.price}
-                </Typography>
-                <Box flexGrow={1} />
-                <Box
-                  position="relative"
-                  display="flex"
-                  flexDirection="row"
-                  alignItems="center"
-                >
-                  <Box
-                    position="absolute"
-                    left={0}
-                    right={0}
-                    top={0}
-                    bottom={0}
-                    textAlign="center"
-                  >
-                    {product.loading && <CircularProgress size={20} />}
-                  </Box>
-                  <IconButton
-                    disabled={product.loading}
-                    aria-label="delete"
-                    size="small"
-                    onClick={() => addToCart(product.id, -1)}
-                  >
-                    <RemoveIcon fontSize="small" />
-                  </IconButton>
-
-                  <Typography variant="body1" component="div" mx={1}>
-                    {product.itemInCart || 0}
-                  </Typography>
-
-                  <IconButton
-                    disabled={product.loading}
-                    aria-label="add"
-                    size="small"
-                    onClick={() => addToCart(product.id, 1)}
-                  >
-                    <AddIcon fontSize="small" />
-                  </IconButton>
-                </Box>
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+    <>
+      <Box overflow="scroll" height="100%">
+        <ProductList
+          products={products}
+          addToCart={addToCart}
+          lastElementRef={lastElement}
+        />
+        <Box
+          display="flex"
+          position={"relative"}
+          justifyContent="center"
+          height="300px"
+          mt={2}
+        >
+          {isLoading && <CircularProgress size={40} />}
+        </Box>
+      </Box>
+    </>
   );
 };
