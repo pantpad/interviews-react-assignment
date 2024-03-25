@@ -1,4 +1,4 @@
-const productAPI = "/products";
+const productsEndpoint = "/products";
 
 export async function fetchProducts(
   page: number = 0,
@@ -10,9 +10,12 @@ export async function fetchProducts(
     limit = 12;
   }
 
-  const response = await fetch(`${productAPI}?page=${page}&limit=${limit}`, {
-    signal: signal,
-  });
+  const response = await fetch(
+    `${productsEndpoint}?page=${page}&limit=${limit}`,
+    {
+      signal: signal,
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Failed to fetch data");
