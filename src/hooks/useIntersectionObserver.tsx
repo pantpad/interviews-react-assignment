@@ -11,11 +11,12 @@ export default function useIntersectionObserver<T extends HTMLElement>(
   const observer = useRef<IntersectionObserver | null>(null);
 
   const options = {
-    rootMargin: "300px",
+    rootMargin: "100px",
   };
 
   const ref = useCallback(
     (node: T) => {
+      //if the dependencies are true
       if (deps.every(Boolean)) {
         //disconnect the previous observer
         observer.current?.disconnect();

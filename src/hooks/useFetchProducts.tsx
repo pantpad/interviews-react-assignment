@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 export default function useFetchProducts(
   fetchFn: (page?: number, limit?: number) => Promise<ProductResponse>,
   page: number = 0,
-  limit: number = 10
+  limit: number = 0
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);

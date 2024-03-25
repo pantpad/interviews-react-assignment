@@ -9,7 +9,7 @@ import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 1;
 
 export type Cart = {
   items: Product[];
@@ -103,8 +103,12 @@ export const Products = ({
 
   return (
     <>
-      <Box overflow="scroll" height="100%">
-        <ProductList products={products} addToCart={addToCart} />
+      <Box overflow="scroll" min-height="100vh" bgcolor="red">
+        <ProductList
+          products={products}
+          addToCart={addToCart}
+          lastElementRef={lastElement}
+        />
         <Box
           display="flex"
           position={"relative"}
@@ -113,7 +117,6 @@ export const Products = ({
           mt={2}
         >
           {isLoading && <CircularProgress size={40} />}
-          {!isLoading && <div ref={lastElement}></div>}
         </Box>
       </Box>
     </>

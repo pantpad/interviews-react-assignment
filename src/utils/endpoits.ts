@@ -1,4 +1,4 @@
-const productAPI = "/proucts";
+const productAPI = "/products";
 
 export async function fetchProducts(page: number = 0, limit: number = 10) {
   //avoid intersectionObserver to fire too many times on page load

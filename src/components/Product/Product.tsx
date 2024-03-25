@@ -5,23 +5,27 @@ import { Product } from "../../types/ProductType.ts";
 
 import ProductActions from "./ProductActions.tsx";
 import ProductContent from "./ProductContent.tsx";
+import { forwardRef } from "react";
 
 type ProductItemType = {
   product: Product;
   addToCart: (id: number, quantity: number) => void;
 };
 
-export default function ProductItem({ product, addToCart }: ProductItemType) {
+export default forwardRef(function ProductItem(
+  { product, addToCart }: ProductItemType,
+  ref: React.Ref<HTMLDivElement>
+) {
   return (
     <>
       <Grid item xs={4}>
         {/* Do not remove this */}
         <HeavyComponent />
-        <Card style={{ width: "100%" }}>
+        <Card style={{ width: "100%" }} ref={ref}>
           <ProductContent product={product} />
           <ProductActions product={product} addToCart={addToCart} />
         </Card>
       </Grid>
     </>
   );
-}
+});
