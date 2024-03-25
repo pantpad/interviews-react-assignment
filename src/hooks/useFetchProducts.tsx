@@ -1,39 +1,46 @@
 import { Product, ProductResponse } from "../types/ProductType";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 
 export default function useFetchProducts(
-  fetchFn: (page?: number, limit?: number) => Promise<ProductResponse>,
+  fetchFn: (
+    page?: number,
+    limit?: number,
+    signal?: AbortSignal
+  ) => Promise<ProductResponse>,
   page: number = 0,
   limit: number = 10
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | Error>("");
+  const [error, setError] = useState<any>(null);
   const [hasMore, setHasMore] = useState(true);
+
+  //used to abort subsequent fetch requests
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   const fetchProducts = useCallback(
     async function fetchProducts() {
+      abortControllerRef.current?.abort();
+      abortControllerRef.current = new AbortController();
+
       setIsLoading(true);
       try {
-        setError("");
-        const responseData = await fetchFn(page, limit);
+        setError(null);
+        const responseData = await fetchFn(
+          page,
+          limit,
+          abortControllerRef.current?.signal
+        );
         if (!responseData.hasMore) {
           setHasMore(false);
         }
-        if (data.length > 0) {
-          setData((prevData) => {
-            return [...prevData, ...responseData.products];
-          });
-        } else {
-          setData(responseData.products);
+        setData((prevData) => [...prevData, ...responseData.products]);
+      } catch (err: any) {
+        if (err.name === "AbortError") {
+          console.log("aborted");
+          return;
         }
-      } catch (err) {
-        let message;
-
-        if (err instanceof Error) message = err.message;
-        else message = String(error);
-
-        setError(message);
+        setError(err);
       } finally {
         setIsLoading(false);
       }
