@@ -1,4 +1,4 @@
-const productAPI = "/poducts";
+const productAPI = "/products";
 
 export async function fetchProducts(
   page: number = 0,
