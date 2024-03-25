@@ -103,7 +103,7 @@ export const Products = ({
 
   return (
     <>
-      <Box overflow="scroll" min-height="100vh" bgcolor="red">
+      <Box overflow="scroll" height="100%">
         <ProductList
           products={products}
           addToCart={addToCart}
