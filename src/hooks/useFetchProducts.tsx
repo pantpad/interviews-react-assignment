@@ -41,6 +41,7 @@ export default function useFetchProducts(
         if (err.name === "AbortError") {
           return;
         }
+        console.log(err);
         setError(err);
         setIsLoading(false);
       }

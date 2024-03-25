@@ -8,6 +8,7 @@ import { fetchProducts } from "./utils/endpoits.ts";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
+import Error from "./components/Error.tsx";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -92,12 +93,7 @@ export const Products = ({
     });
   }
 
-  if (error)
-    return (
-      <p onLoad={() => console.log(error.toString())}>
-        error... check the console for more details
-      </p>
-    );
+  if (error) return <Error />;
   if (isLoading && products.length === 0)
     return <CircularProgress size={100} />;
 
