@@ -15,15 +15,13 @@ export default function ProductList({
 }: ProductListType) {
   return (
     <Grid container spacing={2} p={2} position={"relative"}>
-      {products.map((product, i, products) => (
-        <>
-          <ProductItem
-            key={product.id}
-            product={product}
-            addToCart={addToCart}
-            ref={products.length - 1 === i ? lastElementRef : null}
-          />
-        </>
+      {products.map((product, i) => (
+        <ProductItem
+          key={product.id}
+          product={product}
+          addToCart={addToCart}
+          ref={products.length - 1 === i ? lastElementRef : null}
+        />
       ))}
     </Grid>
   );
