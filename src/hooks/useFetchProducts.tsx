@@ -35,12 +35,12 @@ export default function useFetchProducts(
           setHasMore(false);
         }
         setData((prevData) => [...prevData, ...responseData.products]);
+        setIsLoading(false);
       } catch (err: any) {
         if (err.name === "AbortError") {
           return;
         }
         setError(err);
-      } finally {
         setIsLoading(false);
       }
     },
