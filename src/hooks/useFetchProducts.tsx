@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 export default function useFetchProducts(
   fetchFn: (page?: number, limit?: number) => Promise<ProductResponse>,
   page: number = 0,
-  limit: number = 0
+  limit: number = 10
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,13 +14,19 @@ export default function useFetchProducts(
   const fetchProducts = useCallback(
     async function fetchProducts() {
       setIsLoading(true);
-      setError("");
       try {
+        setError("");
         const responseData = await fetchFn(page, limit);
         if (!responseData.hasMore) {
           setHasMore(false);
         }
-        setData((prev) => [...prev, ...responseData.products]);
+        if (data.length > 0) {
+          setData((prevData) => {
+            return [...prevData, ...responseData.products];
+          });
+        } else {
+          setData(responseData.products);
+        }
       } catch (err) {
         let message;
 
