@@ -37,7 +37,6 @@ export default function useFetchProducts(
         setData((prevData) => [...prevData, ...responseData.products]);
       } catch (err: any) {
         if (err.name === "AbortError") {
-          console.log("aborted");
           return;
         }
         setError(err);
