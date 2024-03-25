@@ -12,7 +12,7 @@ export default function useFetchProducts(
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
   //used to abort subsequent fetch requests
@@ -34,6 +34,7 @@ export default function useFetchProducts(
         if (!responseData.hasMore) {
           setHasMore(false);
         }
+        //append data to existing data
         setData((prevData) => [...prevData, ...responseData.products]);
         setIsLoading(false);
       } catch (err: any) {
