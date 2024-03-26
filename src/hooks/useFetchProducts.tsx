@@ -10,7 +10,9 @@ export default function useFetchProducts(
     signal?: AbortSignal
   ) => Promise<ProductResponse>,
   page: number = 0,
-  limit: number = 10
+  limit: number = 10,
+  query: string = "",
+  category: string = ""
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +33,8 @@ export default function useFetchProducts(
         const responseData = await fetchFn(
           page,
           limit,
+          query,
+          category,
           abortControllerRef.current?.signal
         );
         if (!responseData.hasMore) {
