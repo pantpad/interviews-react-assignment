@@ -6,7 +6,10 @@ import { useState } from "react";
 
 function App() {
   const [cart, setCart] = useState<Cart>();
+  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentFilter, setCurrentFilter] = useState("");
   console.log(cart);
+  console.log(currentCategory);
 
   function onCartChange(cart: Cart) {
     setCart(cart);
@@ -20,7 +23,10 @@ function App() {
         price={cart?.totalPrice || 0}
       />
       <Box flex={1} display="flex" flexDirection="row">
-        <Categories />
+        <Categories
+          onCategoryChange={setCurrentCategory}
+          category={currentCategory}
+        />
         <Box flex={1}>
           <Products onCartChange={onCartChange} />
         </Box>
