@@ -28,7 +28,6 @@ export const Products = memo(
     filter: string;
     category: string;
   }) => {
-    const [page, setPage] = useState(0);
     const {
       data: products,
       isLoading,
@@ -39,10 +38,7 @@ export const Products = memo(
     } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE, filter, category);
 
     function loadMore() {
-      setPage((prevPage) => {
-        fetchMore(prevPage + 1);
-        return prevPage + 1;
-      });
+      fetchMore();
     }
 
     //if last element is visible + there are more products to load + it is not currently loading other things

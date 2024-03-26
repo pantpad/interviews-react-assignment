@@ -55,7 +55,7 @@ export default function useFetchProducts(
     [query, category]
   );
 
-  async function fetchMore(page: number) {
+  async function fetchMore() {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
 
