@@ -9,6 +9,7 @@ function App() {
   const [currentCategory, setCurrentCategory] = useState("");
   const [currentFilter, setCurrentFilter] = useState("");
   const deferredFilter = useDeferredValue(currentFilter);
+  const deferredCategory = useDeferredValue(currentCategory);
 
   //console.log(cart);
   //console.log(currentCategory);
@@ -33,7 +34,11 @@ function App() {
           category={currentCategory}
         />
         <Box flex={1}>
-          <Products onCartChange={onCartChange} filter={deferredFilter} />
+          <Products
+            onCartChange={onCartChange}
+            filter={deferredFilter}
+            category={deferredCategory}
+          />
         </Box>
       </Box>
     </Box>

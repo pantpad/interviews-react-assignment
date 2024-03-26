@@ -22,9 +22,11 @@ export const Products = memo(
   ({
     onCartChange,
     filter,
+    category,
   }: {
     onCartChange: (cart: Cart) => void;
     filter: string;
+    category: string;
   }) => {
     const [page, setPage] = useState(0);
     const {
@@ -102,6 +104,7 @@ export const Products = memo(
 
     return (
       <>
+        <p>{filter}</p> <p>{category}</p>
         <Box overflow="scroll" height="100%">
           <ProductList
             products={products}
