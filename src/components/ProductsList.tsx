@@ -15,7 +15,7 @@ export default function ProductList({
 }: ProductListType) {
   return (
     <Grid container spacing={2} p={2} position={"relative"}>
-      {products.map((product, i) => (
+      {products.map((product, i, products) => (
         <ProductItem
           key={product.id}
           product={product}

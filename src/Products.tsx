@@ -1,4 +1,4 @@
-import { useState, memo } from "react";
+import { useState, memo, useEffect } from "react";
 
 import { Box, CircularProgress } from "@mui/material";
 
@@ -35,10 +35,14 @@ export const Products = memo(
       error,
       setData: setProducts,
       hasMore,
+      fetchMore,
     } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE, filter, category);
 
     function loadMore() {
-      setPage((prevPage) => prevPage + 1);
+      setPage((prevPage) => {
+        fetchMore(prevPage + 1);
+        return prevPage + 1;
+      });
     }
 
     //if last element is visible + there are more products to load + it is not currently loading other things
@@ -47,6 +51,23 @@ export const Products = memo(
       !isLoading,
       hasMore,
     ]);
+
+    useEffect(() => {
+      async function fetchWithParams() {
+        try {
+          const response = await fetchProducts(
+            page,
+            ITEMS_PER_PAGE,
+            filter,
+            category
+          );
+          setProducts(response.products);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      fetchWithParams();
+    }, [filter, category]);
 
     //not needed anymore, logic has been placed inside useFetchProducts hooks
     // useEffect(() => {

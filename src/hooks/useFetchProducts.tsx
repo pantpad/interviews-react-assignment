@@ -26,12 +26,12 @@ export default function useFetchProducts(
     async function fetchProducts() {
       abortControllerRef.current?.abort();
       abortControllerRef.current = new AbortController();
-
+      setHasMore(true);
       setIsLoading(true);
       try {
         setError(null);
         const responseData = await fetchFn(
-          page,
+          0,
           limit,
           query,
           category,
@@ -41,7 +41,7 @@ export default function useFetchProducts(
           setHasMore(false);
         }
         //append data to existing data
-        setData((prevData) => [...prevData, ...responseData.products]);
+        setData(responseData.products);
         setIsLoading(false);
       } catch (err: any) {
         if (err.name === "AbortError") {
@@ -52,12 +52,42 @@ export default function useFetchProducts(
         setIsLoading(false);
       }
     },
-    [page, limit]
+    [query, category]
   );
+
+  async function fetchMore(page: number) {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+
+    setIsLoading(true);
+    try {
+      setError(null);
+      const responseData = await fetchFn(
+        page,
+        limit,
+        query,
+        category,
+        abortControllerRef.current?.signal
+      );
+      if (!responseData.hasMore) {
+        setHasMore(false);
+      }
+      //append data to existing data
+      setData((prevData) => [...prevData, ...responseData.products]);
+      setIsLoading(false);
+    } catch (err: any) {
+      if (err.name === "AbortError") {
+        return;
+      }
+      console.log(err);
+      setError(err);
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
-  return { data, isLoading, error, setData, hasMore };
+  return { data, isLoading, error, setData, hasMore, fetchMore };
 }
