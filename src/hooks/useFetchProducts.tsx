@@ -64,7 +64,7 @@ export default function useFetchProducts(
     try {
       setError(null);
       const responseData = await fetchFn(
-        page,
+        page + 1,
         limit,
         query,
         category,
