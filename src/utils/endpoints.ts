@@ -12,7 +12,7 @@ export async function fetchProducts(
     limit = 12;
   }
 
-  if (category === "all") {
+  if (category.toLocaleLowerCase() === "all") {
     category = "";
   }
 
