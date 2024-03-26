@@ -12,6 +12,10 @@ export async function fetchProducts(
     limit = 12;
   }
 
+  if (category === "all") {
+    category = "";
+  }
+
   const response = await fetch(
     `${productsEndpoint}?page=${page}&limit=${limit}&q=${query}&category=${category}`,
     {
