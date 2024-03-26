@@ -24,12 +24,12 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    loggaStato: (state) => {
-      console.log(state);
+    addItem: (state) => {
+      console.log(state.value.items.push({} as Product));
     },
   },
 });
 
-export const { loggaStato } = cartSlice.actions;
+export const { addItem } = cartSlice.actions;
 
 export default cartSlice.reducer;
