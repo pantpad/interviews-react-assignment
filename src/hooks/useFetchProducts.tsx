@@ -59,7 +59,7 @@ export default function useFetchProducts(
   async function fetchMore() {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
-
+    setPage((prevPage) => prevPage + 1);
     setIsLoading(true);
     try {
       setError(null);
