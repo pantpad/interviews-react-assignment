@@ -3,7 +3,7 @@ import { useState, memo } from "react";
 import { Box, CircularProgress } from "@mui/material";
 
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
-import { fetchProducts } from "./utils/endpoits.ts";
+import { fetchProducts } from "./utils/endpoints.ts";
 
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";

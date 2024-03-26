@@ -3,8 +3,8 @@ const productsEndpoint = "/products";
 export async function fetchProducts(
   page: number = 0,
   limit: number = 10,
-  query: string,
-  category: string,
+  query: string = "",
+  category: string = "",
   signal?: AbortSignal
 ) {
   //avoid intersectionObserver to fire too many times on page load
