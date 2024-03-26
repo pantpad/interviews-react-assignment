@@ -5,6 +5,8 @@ export default function useFetchProducts(
   fetchFn: (
     page?: number,
     limit?: number,
+    query?: string,
+    category?: string,
     signal?: AbortSignal
   ) => Promise<ProductResponse>,
   page: number = 0,
