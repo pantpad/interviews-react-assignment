@@ -1,7 +1,6 @@
 import { useCallback, useState, useDeferredValue } from "react";
 
-import { useAppDispatch } from "./store/hooks.ts";
-import { loggaStato } from "./slices/cartSlice.ts";
+import { useAppSelector } from "./store/hooks.ts";
 
 import { Box, CssBaseline } from "@mui/material";
 
@@ -16,8 +15,9 @@ function App() {
   const deferredFilter = useDeferredValue(currentFilter);
   const deferredCategory = useDeferredValue(currentCategory);
 
-  const dispatch = useAppDispatch();
-  dispatch(loggaStato());
+  const carrello = useAppSelector((state) => state.cart.value.items);
+
+  console.log(carrello);
 
   //console.log(cart);
   //console.log(currentCategory);
