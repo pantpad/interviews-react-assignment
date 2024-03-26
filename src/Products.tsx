@@ -10,7 +10,7 @@ import { Product } from "./types/ProductType.ts";
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import Error from "./components/Error.tsx";
 
-const ITEMS_PER_PAGE = 200;
+const ITEMS_PER_PAGE = 10;
 
 export type Cart = {
   items: Product[];
@@ -68,6 +68,8 @@ export const Products = memo(
         };
         return clonedProducts;
       });
+      //optimistically update cart
+      onCartChange({} as Cart);
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
       fetch("/cart", {
