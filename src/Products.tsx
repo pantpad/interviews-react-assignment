@@ -35,7 +35,7 @@ export const Products = memo(
       error,
       setData: setProducts,
       hasMore,
-    } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE);
+    } = useFetchProducts(fetchProducts, page, ITEMS_PER_PAGE, filter, category);
 
     function loadMore() {
       setPage((prevPage) => prevPage + 1);
