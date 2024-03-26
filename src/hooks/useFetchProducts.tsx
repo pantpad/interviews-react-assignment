@@ -52,7 +52,7 @@ export default function useFetchProducts(
         setIsLoading(false);
       }
     },
-    [page, limit]
+    [page, limit, query, category]
   );
 
   useEffect(() => {
