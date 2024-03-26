@@ -43,7 +43,7 @@ export default function ProductActions({
             bottom={0}
             textAlign="center"
           >
-            {product.loading && <CircularProgress size={20} />}
+            {isPending && <CircularProgress size={20} />}
           </Box>
           <IconButton
             disabled={product.loading}
