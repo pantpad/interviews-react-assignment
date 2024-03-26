@@ -28,6 +28,7 @@ export default function useFetchProducts(
       abortControllerRef.current = new AbortController();
       setHasMore(true);
       setIsLoading(true);
+      setPage(0);
       try {
         setError(null);
         const responseData = await fetchFn(
