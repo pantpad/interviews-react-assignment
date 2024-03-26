@@ -9,7 +9,6 @@ export default function useFetchProducts(
     category?: string,
     signal?: AbortSignal
   ) => Promise<ProductResponse>,
-  page: number = 0,
   limit: number = 10,
   query: string = "",
   category: string = ""
@@ -18,6 +17,7 @@ export default function useFetchProducts(
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
 
   //used to abort subsequent fetch requests
   const abortControllerRef = useRef<AbortController | null>(null);
