@@ -22,6 +22,9 @@ export default function useFetchProducts(
   //used to abort subsequent fetch requests
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  //This function is called at the start of the application & when the user makes a search or category change
+  //It resets the pagination to page 0
+  //It replaces the existing data with the new data
   const fetchProducts = useCallback(
     async function fetchProducts() {
       abortControllerRef.current?.abort();
@@ -56,6 +59,9 @@ export default function useFetchProducts(
     [query, category]
   );
 
+  //This function is called when the user scrolls to the bottom of the page
+  //It sets the current pagination to the next page
+  //Appends data to the currently existing data
   async function fetchMore() {
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
