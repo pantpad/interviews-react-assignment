@@ -2,19 +2,21 @@ import { Cart, Products } from "./Products.tsx";
 import { Box, CssBaseline } from "@mui/material";
 import SearchAppBar from "./SearchAppBar.tsx";
 import { Categories } from "./Categories.tsx";
-import { useState } from "react";
+import { useCallback, useState, useDeferredValue } from "react";
 
 function App() {
   const [cart, setCart] = useState<Cart>();
   const [currentCategory, setCurrentCategory] = useState("");
   const [currentFilter, setCurrentFilter] = useState("");
-  console.log(cart);
-  console.log(currentCategory);
-  console.log(currentFilter);
+  const deferredFilter = useDeferredValue(currentFilter);
 
-  function onCartChange(cart: Cart) {
+  //console.log(cart);
+  //console.log(currentCategory);
+  //console.log(currentFilter);
+
+  const onCartChange = useCallback(function onCartChange(cart: Cart) {
     setCart(cart);
-  }
+  }, []);
 
   return (
     <Box height="100vh" display="flex" flexDirection="column">
@@ -31,7 +33,7 @@ function App() {
           category={currentCategory}
         />
         <Box flex={1}>
-          <Products onCartChange={onCartChange} />
+          <Products onCartChange={onCartChange} filter={deferredFilter} />
         </Box>
       </Box>
     </Box>
