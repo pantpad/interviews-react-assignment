@@ -10,7 +10,7 @@ import { Product } from "./types/ProductType.ts";
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import Error from "./components/Error.tsx";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 200;
 
 export type Cart = {
   items: Product[];
@@ -59,17 +59,15 @@ export const Products = memo(
       //toggle current product loading state to true in order to:
       //disable further button pression
       //make spinner load
-      setProducts(
-        products.map((product) => {
-          if (product.id === productId) {
-            return {
-              ...product,
-              loading: true,
-            };
-          }
-          return product;
-        })
-      );
+      setProducts((prevProducts) => {
+        const clonedProducts = [...prevProducts];
+        clonedProducts[productId] = {
+          ...clonedProducts[productId],
+          loading: true,
+          itemInCart: (clonedProducts[productId].itemInCart || 0) + quantity,
+        };
+        return clonedProducts;
+      });
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
       fetch("/cart", {
@@ -81,18 +79,15 @@ export const Products = memo(
       }).then(async (response) => {
         if (response.ok) {
           const cart = await response.json();
-          setProducts(
-            products.map((product) => {
-              if (product.id === productId) {
-                return {
-                  ...product,
-                  itemInCart: (product.itemInCart || 0) + quantity,
-                  loading: false,
-                };
-              }
-              return product;
-            })
-          );
+          console.log(cart);
+          setProducts((prevProducts) => {
+            const clonedProducts = [...prevProducts];
+            clonedProducts[productId] = {
+              ...clonedProducts[productId],
+              loading: false,
+            };
+            return clonedProducts;
+          });
           onCartChange(cart);
         }
       });
