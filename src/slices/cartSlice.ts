@@ -20,5 +20,13 @@ const initialState: Cart = {
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
-  reducers: {},
+  reducers: {
+    loggaStato: (state) => {
+      console.log(state);
+    },
+  },
 });
+
+export const { loggaStato } = cartSlice.actions;
+
+export default cartSlice.reducer;
