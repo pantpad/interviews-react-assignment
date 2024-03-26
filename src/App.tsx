@@ -10,6 +10,7 @@ function App() {
   const [currentFilter, setCurrentFilter] = useState("");
   console.log(cart);
   console.log(currentCategory);
+  console.log(currentFilter);
 
   function onCartChange(cart: Cart) {
     setCart(cart);
@@ -21,6 +22,8 @@ function App() {
       <SearchAppBar
         quantity={cart?.totalItems || 0}
         price={cart?.totalPrice || 0}
+        setFilter={setCurrentFilter}
+        filter={currentFilter}
       />
       <Box flex={1} display="flex" flexDirection="row">
         <Categories
