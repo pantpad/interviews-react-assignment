@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { Product } from "../types/ProductType";
+// import { PayloadAction } from "@reduxjs/toolkit";
+// import { RootState } from "../store/store";
 
 interface Cart {
   value: {
