@@ -48,23 +48,6 @@ export const Products = memo(
       hasMore,
     ]);
 
-    useEffect(() => {
-      async function fetchWithParams() {
-        try {
-          const response = await fetchProducts(
-            page,
-            ITEMS_PER_PAGE,
-            filter,
-            category
-          );
-          setProducts(response.products);
-        } catch (err) {
-          console.log(err);
-        }
-      }
-      fetchWithParams();
-    }, [filter, category]);
-
     //not needed anymore, logic has been placed inside useFetchProducts hooks
     // useEffect(() => {
     //   fetch("/products?limit=200")
