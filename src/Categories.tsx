@@ -9,6 +9,7 @@ import {
 const drawerWidth = 180;
 
 const categories = [
+  "All",
   "Fruit",
   "Vegetables",
   "Dairy",
