@@ -30,6 +30,7 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(state, action) {
+      console.log(action.payload);
       const item = state.value.items.find(
         (item) => item.product.id === action.payload.id
       );
