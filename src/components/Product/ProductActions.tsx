@@ -13,7 +13,11 @@ import { Product } from "../../types/ProductType";
 import { useState, useTransition } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
-import { addItemToCart, getCartItemById } from "../../slices/cartSlice";
+import {
+  addItemToCart,
+  getCartItemById,
+  setCart,
+} from "../../slices/cartSlice";
 
 type ProductActionsType = {
   product: Product;
@@ -23,12 +27,15 @@ type ProductActionsType = {
 export default function ProductActions({ product }: ProductActionsType) {
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(false);
+
+  const cart = useAppSelector((state) => state.cart.value);
+  const dispatch = useAppDispatch();
+
   const cartItem = useAppSelector((state) =>
     getCartItemById(state, product.id)
   );
-  const dispatch = useAppDispatch();
 
-  async function postCart(quantity: number) {
+  async function postCart(prevCartState: any, quantity: number) {
     try {
       setIsLoading(true);
       const cartResponse = await fetch("/cart", {
@@ -38,8 +45,11 @@ export default function ProductActions({ product }: ProductActionsType) {
         },
         body: JSON.stringify({ productId: product.id, quantity }),
       });
+      if (!cartResponse.ok) {
+        dispatch(setCart(prevCartState));
+      }
       const cartValue = await cartResponse.json();
-      console.log(cartValue);
+      dispatch(setCart(cartValue));
       setIsLoading(false);
     } catch (err) {
       console.log(err);
@@ -94,12 +104,15 @@ export default function ProductActions({ product }: ProductActionsType) {
             aria-label="add"
             size="small"
             onClick={() => {
-              //product.loading = true;
+              const prevCartState = {
+                items: [...cart.items],
+                totalPrice: cart.totalPrice,
+                totalItems: cart.totalItems,
+              };
               startTransition(() => {
-                //addToCart(product.id, 1);
                 dispatch(addItemToCart({ product, value: 1 }));
               });
-              postCart(1);
+              postCart(prevCartState, 1);
             }}
           >
             <AddIcon fontSize="small" />

@@ -15,6 +15,7 @@ export default forwardRef(function ProductItem(
   { product }: ProductItemType,
   ref: React.Ref<HTMLDivElement>
 ) {
+  console.log("product", product.name);
   return (
     <Grid item xs={4}>
       {/* Do not remove this */}

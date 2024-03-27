@@ -4,12 +4,12 @@ import { Product } from "../types/ProductType";
 //import { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store/store";
 
-interface CartItem {
+export interface CartItem {
   product: Product;
   quantity: number;
 }
 
-interface Cart {
+export interface Cart {
   value: {
     items: CartItem[];
     totalItems: number;

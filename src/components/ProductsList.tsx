@@ -4,7 +4,7 @@ import ProductItem from "./Product/Product";
 
 type ProductListType = {
   products: Product[];
-  addToCart: (id: number, quantity: number) => void;
+  //addToCart: (id: number, quantity: number) => void;
   lastElementRef: React.Ref<HTMLDivElement>;
 };
 

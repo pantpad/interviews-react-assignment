@@ -13,7 +13,7 @@ import Error from "./components/Error.tsx";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 
-const ITEMS_PER_PAGE = 200;
+const ITEMS_PER_PAGE = 20;
 
 export type Cart = {
   items: Product[];
@@ -53,77 +53,77 @@ export const Products = memo(
     //     .then((data) => setProducts(data.products));
     // }, []);
 
-    function addToCart(productId: number, quantity: number) {
-      //toggle current product loading state to true in order to:
-      //disable further button pression
-      //make spinner load
-      setProducts((prevProducts) => {
-        const clonedProducts = [...prevProducts];
-        clonedProducts[productId] = {
-          ...clonedProducts[productId],
-          loading: true,
-          itemInCart: (clonedProducts[productId].itemInCart || 0) + quantity,
-        };
-        return clonedProducts;
-      });
-      //optimistically update cart
-      const prevCartState = {
-        items: [...cart.items],
-        totalPrice: cart.totalPrice,
-        totalItems: cart.totalItems,
-      };
-      const item = cart.items.find((item) => item.product.id === productId);
-      if (item) {
-        dispatch(
-          setCart({
-            items: [...cart.items],
-            totalPrice: cart.totalPrice + products[productId].price * quantity,
-            totalItems: cart.totalItems + quantity,
-          })
-        );
-      } else {
-        dispatch(
-          setCart({
-            items: [
-              ...cart.items,
-              {
-                product: products[productId],
-                quantity,
-              },
-            ],
-            totalPrice: cart.totalPrice + products[productId].price * quantity,
-            totalItems: cart.totalItems + quantity,
-          })
-        );
-      }
+    // function addToCart(productId: number, quantity: number) {
+    //   //toggle current product loading state to true in order to:
+    //   //disable further button pression
+    //   //make spinner load
+    //   setProducts((prevProducts) => {
+    //     const clonedProducts = [...prevProducts];
+    //     clonedProducts[productId] = {
+    //       ...clonedProducts[productId],
+    //       loading: true,
+    //       itemInCart: (clonedProducts[productId].itemInCart || 0) + quantity,
+    //     };
+    //     return clonedProducts;
+    //   });
+    //   //optimistically update cart
+    //   const prevCartState = {
+    //     items: [...cart.items],
+    //     totalPrice: cart.totalPrice,
+    //     totalItems: cart.totalItems,
+    //   };
+    //   const item = cart.items.find((item) => item.product.id === productId);
+    //   if (item) {
+    //     dispatch(
+    //       setCart({
+    //         items: [...cart.items],
+    //         totalPrice: cart.totalPrice + products[productId].price * quantity,
+    //         totalItems: cart.totalItems + quantity,
+    //       })
+    //     );
+    //   } else {
+    //     dispatch(
+    //       setCart({
+    //         items: [
+    //           ...cart.items,
+    //           {
+    //             product: products[productId],
+    //             quantity,
+    //           },
+    //         ],
+    //         totalPrice: cart.totalPrice + products[productId].price * quantity,
+    //         totalItems: cart.totalItems + quantity,
+    //       })
+    //     );
+    //   }
 
-      //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
-      //inside we also toggle the current product loadingState to false.
-      fetch("/cart", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId, quantity }),
-      }).then(async (response) => {
-        if (response.ok) {
-          const cartResponse = await response.json();
-          console.log(cartResponse);
-          setProducts((prevProducts) => {
-            const clonedProducts = [...prevProducts];
-            clonedProducts[productId] = {
-              ...clonedProducts[productId],
-              loading: false,
-            };
-            return clonedProducts;
-          });
-          dispatch(setCart(cartResponse));
-        }
-        if (!response.ok) {
-          dispatch(setCart(prevCartState));
-        }
-      });
-    }
+    //   //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
+    //   //inside we also toggle the current product loadingState to false.
+    //   fetch("/cart", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ productId, quantity }),
+    //   }).then(async (response) => {
+    //     if (response.ok) {
+    //       const cartResponse = await response.json();
+    //       console.log(cartResponse);
+    //       setProducts((prevProducts) => {
+    //         const clonedProducts = [...prevProducts];
+    //         clonedProducts[productId] = {
+    //           ...clonedProducts[productId],
+    //           loading: false,
+    //         };
+    //         return clonedProducts;
+    //       });
+    //       dispatch(setCart(cartResponse));
+    //     }
+    //     if (!response.ok) {
+    //       dispatch(setCart(prevCartState));
+    //     }
+    //   });
+    // }
 
     if (error) return <Error />;
     if (isLoading && products.length === 0)
@@ -133,11 +133,7 @@ export const Products = memo(
       <>
         <p>{filter}</p> <p>{category}</p>
         <Box overflow="scroll" height="100%">
-          <ProductList
-            products={products}
-            addToCart={addToCart}
-            lastElementRef={lastElement}
-          />
+          <ProductList products={products} lastElementRef={lastElement} />
           <Box
             display="flex"
             position={"relative"}
