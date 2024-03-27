@@ -10,7 +10,7 @@ import Error from "./components/Error.tsx";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 
-const ITEMS_PER_PAGE = 20;
+const ITEMS_PER_PAGE = 200;
 
 export type Cart = {
   items: Product[];

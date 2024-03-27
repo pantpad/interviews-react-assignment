@@ -58,7 +58,7 @@ export default function ProductActions({ product }: ProductActionsType) {
       setIsLoading(false);
     }
   }
-
+  //console.log("productAction" + product.name);
   return (
     <>
       <CardActions>
