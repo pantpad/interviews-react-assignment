@@ -6,6 +6,7 @@ import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { fetchProducts } from "./utils/endpoints.ts";
 
+import ProductSkeleton from "./components/Product/ProductSkeleton.tsx";
 import Error from "./components/Error.tsx";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
@@ -42,7 +43,7 @@ export const Products = memo(
     ]);
 
     if (error) return <Error />;
-    if (isLoading) return <CircularProgress size={100} />;
+    if (isLoading) return <ProductSkeleton />;
 
     return (
       <>
