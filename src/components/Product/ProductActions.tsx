@@ -57,7 +57,7 @@ export default function ProductActions({
             aria-label="delete"
             size="small"
             onClick={() => {
-              product.loading = true;
+              //product.loading = true;
               startTransition(() => {
                 addToCart(product.id, -1);
               });
@@ -73,7 +73,7 @@ export default function ProductActions({
             aria-label="add"
             size="small"
             onClick={() => {
-              product.loading = true;
+              //product.loading = true;
               startTransition(() => {
                 //addToCart(product.id, 1);
                 dispatch(addItemToCart(product));

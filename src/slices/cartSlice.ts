@@ -34,12 +34,13 @@ export const cartSlice = createSlice({
       const inCart = state.value.items.find(
         (item) => item.product.id === action.payload.id
       );
+      //if it is, increment quantity
       if (inCart) {
         state.value.items = state.value.items.map((item) =>
           item.product.id === action.payload.id
             ? {
                 product: { ...action.payload },
-                quantity: (action.payload.itemInCart += 1),
+                quantity: (inCart.quantity += 1),
               }
             : item
         );
