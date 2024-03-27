@@ -38,8 +38,8 @@ export const cartSlice = createSlice({
         state.value.items = state.value.items.map((item) =>
           item.product.id === action.payload.id
             ? {
-                ...action.payload,
-                itemInCart: (action.payload.itemInCart += 1),
+                product: { ...action.payload },
+                quantity: (action.payload.itemInCart += 1),
               }
             : item
         );
@@ -47,11 +47,13 @@ export const cartSlice = createSlice({
         state.value.items = [
           ...state.value.items,
           {
-            ...action.payload,
-            itemInCart: 1,
+            product: { ...action.payload },
+            quantity: 1,
           },
         ];
       }
+      console.log(state.value.items, "items");
+      console.log(state.value.totalItems, "totalItems");
       const totalPrice = state.value.items.reduce(
         (acc, { product, quantity }) => acc + product.price * quantity,
         0

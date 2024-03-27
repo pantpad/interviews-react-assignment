@@ -12,8 +12,8 @@ import { Product } from "../../types/ProductType";
 
 import { useTransition } from "react";
 
-import { useAppSelector } from "../../store/hooks";
-import { getCartItemById } from "../../slices/cartSlice";
+import { useAppSelector, useAppDispatch } from "../../store/hooks";
+import { addItemToCart, getCartItemById } from "../../slices/cartSlice";
 
 type ProductActionsType = {
   product: Product;
@@ -28,6 +28,7 @@ export default function ProductActions({
   const cartItem = useAppSelector((state) =>
     getCartItemById(state, product.id)
   );
+  const dispatch = useAppDispatch();
   return (
     <>
       <CardActions>
@@ -74,7 +75,8 @@ export default function ProductActions({
             onClick={() => {
               product.loading = true;
               startTransition(() => {
-                addToCart(product.id, 1);
+                //addToCart(product.id, 1);
+                dispatch(addItemToCart(product));
               });
             }}
           >
