@@ -15,10 +15,6 @@ function App() {
   const deferredFilter = useDeferredValue(currentFilter);
   const deferredCategory = useDeferredValue(currentCategory);
 
-  //console.log(cart);
-  //console.log(currentCategory);
-  //console.log(currentFilter);
-
   return (
     <Box height="100vh" display="flex" flexDirection="column">
       <CssBaseline />
