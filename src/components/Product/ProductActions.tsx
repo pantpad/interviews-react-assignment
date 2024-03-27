@@ -49,13 +49,18 @@ export default function ProductActions({
             bottom={0}
             textAlign="center"
           >
-            {isPending && <CircularProgress size={20} />}
+            {(isPending || product.loading) && <CircularProgress size={20} />}
           </Box>
           <IconButton
             disabled={product.loading}
             aria-label="delete"
             size="small"
-            onClick={() => addToCart(product.id, -1)}
+            onClick={() => {
+              product.loading = true;
+              startTransition(() => {
+                addToCart(product.id, -1);
+              });
+            }}
           >
             <RemoveIcon fontSize="small" />
           </IconButton>
