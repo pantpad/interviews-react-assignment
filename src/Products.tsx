@@ -2,9 +2,6 @@ import { memo } from "react";
 
 import { Box, CircularProgress } from "@mui/material";
 
-import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
-import { setCart } from "./slices/cartSlice.ts";
-
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { fetchProducts } from "./utils/endpoints.ts";
@@ -23,14 +20,10 @@ export type Cart = {
 
 export const Products = memo(
   ({ filter, category }: { filter: string; category: string }) => {
-    const dispatch = useAppDispatch();
-    const cart = useAppSelector((state) => state.cart.value);
-
     const {
       data: products,
       isLoading,
       error,
-      setData: setProducts,
       hasMore,
       fetchMore,
     } = useFetchProducts(fetchProducts, ITEMS_PER_PAGE, filter, category);
