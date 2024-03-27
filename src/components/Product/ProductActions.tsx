@@ -17,13 +17,10 @@ import { addItemToCart, getCartItemById } from "../../slices/cartSlice";
 
 type ProductActionsType = {
   product: Product;
-  addToCart: (id: number, quantity: number) => void;
+  //addToCart: (id: number, quantity: number) => void;
 };
 
-export default function ProductActions({
-  product,
-  addToCart,
-}: ProductActionsType) {
+export default function ProductActions({ product }: ProductActionsType) {
   const [isPending, startTransition] = useTransition();
   const cartItem = useAppSelector((state) =>
     getCartItemById(state, product.id)
