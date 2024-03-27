@@ -35,6 +35,8 @@ export default function ProductActions({ product }: ProductActionsType) {
     getCartItemById(state, product.id)
   );
 
+  const cartItemQuantity = cartItem?.quantity || 0;
+
   async function postCart(prevCartState: any, quantity: number) {
     try {
       setIsLoading(true);
@@ -46,7 +48,6 @@ export default function ProductActions({ product }: ProductActionsType) {
         body: JSON.stringify({ productId: product.id, quantity }),
       });
       if (!cartResponse.ok) {
-        console.log(cartResponse);
         dispatch(setCart(prevCartState));
       }
       const cartValue = await cartResponse.json();
@@ -84,7 +85,7 @@ export default function ProductActions({ product }: ProductActionsType) {
             )}
           </Box>
           <IconButton
-            disabled={product.loading}
+            disabled={product.loading || cartItemQuantity === 0}
             aria-label="delete"
             size="small"
             onClick={() => {
@@ -102,7 +103,7 @@ export default function ProductActions({ product }: ProductActionsType) {
             <RemoveIcon fontSize="small" />
           </IconButton>
           <Typography variant="body1" component="div" mx={1}>
-            {cartItem?.quantity || 0}
+            {cartItemQuantity}
           </Typography>
           <IconButton
             disabled={product.loading}
