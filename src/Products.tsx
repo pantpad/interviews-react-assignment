@@ -37,6 +37,7 @@ export const Products = memo(
     //then fire the load more callback
     const lastElement = useIntersectionObserver<HTMLDivElement>(loadMore, [
       !isLoading,
+      !isLoadingMore,
       hasMore,
     ]);
 
@@ -55,7 +56,7 @@ export const Products = memo(
             height="300px"
             mt={2}
           >
-            {isLoading && <CircularProgress size={40} />}
+            {isLoadingMore && <CircularProgress size={40} />}
           </Box>
         </Box>
       </>
