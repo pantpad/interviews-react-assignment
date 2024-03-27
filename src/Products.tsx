@@ -47,7 +47,7 @@ export const Products = memo(
       !isLoading,
       hasMore,
     ]);
-
+    //develop backup
     //not needed anymore, logic has been placed inside useFetchProducts hooks
     // useEffect(() => {
     //   fetch("/products?limit=200")
