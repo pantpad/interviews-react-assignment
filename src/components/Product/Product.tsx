@@ -9,7 +9,6 @@ import { forwardRef } from "react";
 
 type ProductItemType = {
   product: Product;
-  //addToCart: (id: number, quantity: number) => void;
 };
 
 export default forwardRef(function ProductItem(

@@ -10,7 +10,6 @@ type ProductListType = {
 
 export default function ProductList({
   products,
-  addToCart,
   lastElementRef,
 }: ProductListType) {
   return (
@@ -19,7 +18,6 @@ export default function ProductList({
         <ProductItem
           key={product.id}
           product={product}
-          addToCart={addToCart}
           ref={products.length - 1 === i ? lastElementRef : null}
         />
       ))}

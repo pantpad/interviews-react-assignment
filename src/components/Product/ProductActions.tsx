@@ -10,7 +10,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { Product } from "../../types/ProductType";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import { addItemToCart, getCartItemById } from "../../slices/cartSlice";
@@ -22,10 +22,31 @@ type ProductActionsType = {
 
 export default function ProductActions({ product }: ProductActionsType) {
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const cartItem = useAppSelector((state) =>
     getCartItemById(state, product.id)
   );
   const dispatch = useAppDispatch();
+
+  async function postCart(quantity: number) {
+    try {
+      setIsLoading(true);
+      const cartResponse = await fetch("/cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: product.id, quantity }),
+      });
+      const cartValue = await cartResponse.json();
+      console.log(cartValue);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+    }
+  }
+
   return (
     <>
       <CardActions>
@@ -47,7 +68,9 @@ export default function ProductActions({ product }: ProductActionsType) {
             bottom={0}
             textAlign="center"
           >
-            {(isPending || product.loading) && <CircularProgress size={20} />}
+            {(isPending || isLoading || product.loading) && (
+              <CircularProgress size={20} />
+            )}
           </Box>
           <IconButton
             disabled={product.loading}
@@ -76,6 +99,7 @@ export default function ProductActions({ product }: ProductActionsType) {
                 //addToCart(product.id, 1);
                 dispatch(addItemToCart({ product, value: 1 }));
               });
+              postCart(1);
             }}
           >
             <AddIcon fontSize="small" />
