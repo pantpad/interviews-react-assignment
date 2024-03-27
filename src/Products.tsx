@@ -43,7 +43,7 @@ export const Products = memo(
     ]);
 
     if (error) return <Error />;
-    if (isLoading) return <ProductSkeleton />;
+    if (!isLoading) return <ProductSkeleton />;
 
     return (
       <>
