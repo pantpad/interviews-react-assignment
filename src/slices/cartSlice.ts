@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { Product } from "../types/ProductType";
 //import { PayloadAction } from "@reduxjs/toolkit";
-// import { RootState } from "../store/store";
+import { RootState } from "../store/store";
 
 interface CartItem {
   product: Product;
@@ -49,5 +49,8 @@ export const cartSlice = createSlice({
 });
 
 export const { setCart, addItemToCart } = cartSlice.actions;
+
+export const getCartItemById = (state: RootState, id: number) =>
+  state.cart.value.items.find((item) => item.product.id === id);
 
 export default cartSlice.reducer;
