@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { Product } from "../types/ProductType";
 import ProductItem from "./Product/Product";
 
@@ -14,13 +14,19 @@ export default function ProductList({
 }: ProductListType) {
   return (
     <Grid container spacing={2} p={2} position={"relative"}>
-      {products.map((product, i, products) => (
-        <ProductItem
-          key={product.id}
-          product={product}
-          ref={products.length - 1 === i ? lastElementRef : null}
-        />
-      ))}
+      {products.length === 0 ? (
+        <Box mx={"auto"} my={4}>
+          No products found
+        </Box>
+      ) : (
+        products.map((product, i, products) => (
+          <ProductItem
+            key={product.id}
+            product={product}
+            ref={products.length - 1 === i ? lastElementRef : null}
+          />
+        ))
+      )}
     </Grid>
   );
 }

@@ -47,7 +47,6 @@ export const Products = memo(
 
     return (
       <>
-        <p>{filter}</p> <p>{category}</p>
         <Box overflow="scroll" height="100%">
           <ProductList products={products} lastElementRef={lastElement} />
           <Box
