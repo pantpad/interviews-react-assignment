@@ -17,7 +17,7 @@ export default function ProductSkeleton() {
     <Box overflow="scroll" height="100%">
       <Grid container spacing={2} p={2} position={"relative"}>
         {new Array(10).fill(0).map((_, i) => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={i}>
             <Card style={{ width: "100%" }}>
               <CardMedia
                 component="img"
