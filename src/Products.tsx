@@ -67,6 +67,11 @@ export const Products = memo(
         return clonedProducts;
       });
       //optimistically update cart
+      const prevCartState = {
+        items: [...cart.items],
+        totalPrice: cart.totalPrice,
+        totalItems: cart.totalItems,
+      };
       dispatch(
         setCart({
           items: [
@@ -101,6 +106,9 @@ export const Products = memo(
             return clonedProducts;
           });
           dispatch(setCart(cartResponse));
+        }
+        if (!response.ok) {
+          dispatch(setCart(prevCartState));
         }
       });
     }
