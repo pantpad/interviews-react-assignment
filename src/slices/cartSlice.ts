@@ -34,13 +34,16 @@ export const cartSlice = createSlice({
       const inCart = state.value.items.find(
         (item) => item.product.id === action.payload.product.id
       );
-      //if it is, increment quantity
+      //if it is, check if quantity + value passed is 0
       if (inCart) {
+        //remove item if quantity reaches 0
         if (inCart.quantity + action.payload.value === 0) {
           state.value.items = state.value.items.filter(
             (item) => item.product.id !== action.payload.product.id
           );
         } else {
+          //update quantity if id is the same as product passed.
+          //else return item
           state.value.items = state.value.items.map((item) =>
             item.product.id === action.payload.product.id
               ? {
@@ -51,6 +54,9 @@ export const cartSlice = createSlice({
           );
         }
       } else {
+        //if item is not in cart and quantity to add is positive,
+        //add item
+        //return current state.
         state.value.items =
           action.payload.value === 1
             ? [
@@ -62,7 +68,7 @@ export const cartSlice = createSlice({
               ]
             : [...state.value.items];
       }
-
+      //calculate totalPrice and totalItems
       const totalPrice = state.value.items.reduce(
         (acc, { product, quantity }) => acc + product.price * quantity,
         0

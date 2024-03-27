@@ -13,7 +13,7 @@ type ProductItemType = {
 };
 
 export default forwardRef(function ProductItem(
-  { product, addToCart }: ProductItemType,
+  { product }: ProductItemType,
   ref: React.Ref<HTMLDivElement>
 ) {
   return (
@@ -23,7 +23,7 @@ export default forwardRef(function ProductItem(
         <HeavyComponent />
         <Card style={{ width: "100%" }} ref={ref}>
           <ProductContent product={product} />
-          <ProductActions product={product} addToCart={addToCart} />
+          <ProductActions product={product} />
         </Card>
       </Grid>
     </>
