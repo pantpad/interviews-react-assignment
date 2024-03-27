@@ -5,8 +5,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Badge } from "@mui/material";
+import { Badge, Drawer } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,6 +65,7 @@ export default function SearchAppBar({
   filter,
   setFilter,
 }: SearchAppBarProps) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <Box>
       <AppBar position="relative">
@@ -95,11 +97,21 @@ export default function SearchAppBar({
               $ {(price || 0).toFixed(2)}
             </Typography>
           </Box>
-          <Badge badgeContent={quantity || 0} color="secondary">
+          <Badge
+            badgeContent={quantity || 0}
+            color="secondary"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
             <ShoppingCartIcon />
           </Badge>
         </Toolbar>
       </AppBar>
+      <Drawer open={isOpen} onClose={() => setIsOpen(false)} anchor="right">
+        <h1>ciao</h1>
+      </Drawer>
     </Box>
   );
 }
