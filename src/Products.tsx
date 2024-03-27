@@ -2,13 +2,16 @@ import { memo } from "react";
 
 import { Box, CircularProgress } from "@mui/material";
 
+import { useAppDispatch } from "./store/hooks.ts";
+import { setCart } from "./slices/cartSlice.ts";
+
+import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
 import { fetchProducts } from "./utils/endpoints.ts";
 
+import Error from "./components/Error.tsx";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
-import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
-import Error from "./components/Error.tsx";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -20,6 +23,7 @@ export type Cart = {
 
 export const Products = memo(
   ({ filter, category }: { filter: string; category: string }) => {
+    const dispatch = useAppDispatch();
     const {
       data: products,
       isLoading,
@@ -61,7 +65,7 @@ export const Products = memo(
         return clonedProducts;
       });
       //optimistically update cart
-      onCartChange({} as Cart);
+
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
       fetch("/cart", {
@@ -82,7 +86,7 @@ export const Products = memo(
             };
             return clonedProducts;
           });
-          onCartChange(cart);
+          dispatch(setCart(cart));
         }
       });
     }
