@@ -30,17 +30,38 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart(state, action) {
-      console.log(action.payload);
-      const item = state.value.items.find(
+      //check if item is in cart
+      const inCart = state.value.items.find(
         (item) => item.product.id === action.payload.id
       );
-      if (item) {
-        item.quantity += action.payload.quantity;
-        state.value.totalPrice += item.product.price * action.payload.quantity;
+      if (inCart) {
+        state.value.items = state.value.items.map((item) =>
+          item.product.id === action.payload.id
+            ? {
+                ...action.payload,
+                itemInCart: (action.payload.itemInCart += 1),
+              }
+            : item
+        );
       } else {
-        state.value.items.push(action.payload);
+        state.value.items = [
+          ...state.value.items,
+          {
+            ...action.payload,
+            itemInCart: 1,
+          },
+        ];
       }
-      state.value.totalItems += action.payload.quantity;
+      const totalPrice = state.value.items.reduce(
+        (acc, { product, quantity }) => acc + product.price * quantity,
+        0
+      );
+      const totalItems = state.value.items.reduce(
+        (acc, { quantity }) => acc + quantity,
+        0
+      );
+      state.value.totalPrice = totalPrice;
+      state.value.totalItems = totalItems;
     },
     setCart: (state, action) => {
       state.value = action.payload;

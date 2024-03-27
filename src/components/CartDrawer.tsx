@@ -8,7 +8,7 @@ export default function CartDrawer() {
     <Box p={2} sx={{ minWidth: "300px" }}>
       {cart.items.map((item) => (
         <Box key={item.product.id}>
-          {item.product.name} x{item.quantity}
+          {item.product.name} x {item.quantity}
         </Box>
       ))}
     </Box>

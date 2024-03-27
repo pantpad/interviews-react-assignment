@@ -3,7 +3,7 @@ import { memo } from "react";
 import { Box, CircularProgress } from "@mui/material";
 
 import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
-import { setCart, addItemToCart } from "./slices/cartSlice.ts";
+import { setCart } from "./slices/cartSlice.ts";
 
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
