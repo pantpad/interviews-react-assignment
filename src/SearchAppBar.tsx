@@ -8,6 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Badge, Drawer } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
+import CartDrawer from "./components/CartDrawer";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -110,7 +111,7 @@ export default function SearchAppBar({
         </Toolbar>
       </AppBar>
       <Drawer open={isOpen} onClose={() => setIsOpen(false)} anchor="right">
-        <h1>ciao</h1>
+        <CartDrawer />
       </Drawer>
     </Box>
   );

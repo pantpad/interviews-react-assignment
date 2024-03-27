@@ -4,9 +4,14 @@ import { Product } from "../types/ProductType";
 // import { PayloadAction } from "@reduxjs/toolkit";
 // import { RootState } from "../store/store";
 
+interface CartItem {
+  product: Product;
+  quantity: number;
+}
+
 interface Cart {
   value: {
-    items: Product[];
+    items: CartItem[];
     totalItems: number;
     totalPrice: number;
   };
@@ -25,7 +30,7 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state) => {
-      console.log(state.value.items.push({} as Product));
+      console.log(state.value.items.push({} as CartItem));
     },
     setCart: (state, action) => {
       state.value = action.payload;

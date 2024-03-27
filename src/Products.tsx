@@ -83,7 +83,7 @@ export const Products = memo(
           ],
           totalPrice: cart.totalPrice + products[productId].price * quantity,
           totalItems: cart.totalItems + quantity,
-        } as Cart)
+        })
       );
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
