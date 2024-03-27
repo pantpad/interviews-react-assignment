@@ -9,7 +9,7 @@ import { forwardRef } from "react";
 
 type ProductItemType = {
   product: Product;
-  addToCart: (id: number, quantity: number) => void;
+  //addToCart: (id: number, quantity: number) => void;
 };
 
 export default forwardRef(function ProductItem(
@@ -17,15 +17,13 @@ export default forwardRef(function ProductItem(
   ref: React.Ref<HTMLDivElement>
 ) {
   return (
-    <>
-      <Grid item xs={4}>
-        {/* Do not remove this */}
-        <HeavyComponent />
-        <Card style={{ width: "100%" }} ref={ref}>
-          <ProductContent product={product} />
-          <ProductActions product={product} />
-        </Card>
-      </Grid>
-    </>
+    <Grid item xs={4}>
+      {/* Do not remove this */}
+      <HeavyComponent />
+      <Card style={{ width: "100%" }} ref={ref}>
+        <ProductContent product={product} />
+        <ProductActions product={product} />
+      </Card>
+    </Grid>
   );
 });
