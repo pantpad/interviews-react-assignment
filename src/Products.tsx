@@ -26,6 +26,7 @@ export const Products = memo(
       error,
       hasMore,
       fetchMore,
+      isLoadingMore,
     } = useFetchProducts(fetchProducts, ITEMS_PER_PAGE, filter, category);
 
     function loadMore() {
@@ -40,8 +41,7 @@ export const Products = memo(
     ]);
 
     if (error) return <Error />;
-    if (isLoading && products.length === 0)
-      return <CircularProgress size={100} />;
+    if (isLoading) return <CircularProgress size={100} />;
 
     return (
       <>

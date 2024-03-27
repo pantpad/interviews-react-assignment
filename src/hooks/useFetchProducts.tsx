@@ -15,6 +15,7 @@ export default function useFetchProducts(
 ) {
   const [data, setData] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
@@ -66,7 +67,7 @@ export default function useFetchProducts(
     abortControllerRef.current?.abort();
     abortControllerRef.current = new AbortController();
     setPage((prevPage) => prevPage + 1);
-    setIsLoading(true);
+    setIsLoadingMore(true);
     try {
       setError(null);
       const responseData = await fetchFn(
@@ -81,14 +82,14 @@ export default function useFetchProducts(
       }
       //append data to existing data
       setData((prevData) => [...prevData, ...responseData.products]);
-      setIsLoading(false);
+      setIsLoadingMore(false);
     } catch (err: any) {
       if (err.name === "AbortError") {
         return;
       }
       console.log(err);
       setError(err);
-      setIsLoading(false);
+      setIsLoadingMore(false);
     }
   }
 
@@ -96,5 +97,5 @@ export default function useFetchProducts(
     fetchProducts();
   }, [fetchProducts]);
 
-  return { data, isLoading, error, setData, hasMore, fetchMore };
+  return { data, isLoading, error, setData, hasMore, fetchMore, isLoadingMore };
 }
