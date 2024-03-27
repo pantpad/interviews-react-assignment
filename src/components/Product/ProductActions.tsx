@@ -12,6 +12,8 @@ import { Product } from "../../types/ProductType";
 
 import { useTransition } from "react";
 
+import { useAppSelector } from "../../store/hooks";
+
 type ProductActionsType = {
   product: Product;
   addToCart: (id: number, quantity: number) => void;
@@ -22,6 +24,10 @@ export default function ProductActions({
   addToCart,
 }: ProductActionsType) {
   const [isPending, startTransition] = useTransition();
+  const cartItem = useAppSelector((state) =>
+    state.cart.value.items.find((item) => item.product.id === product.id)
+  );
+
   return (
     <>
       <CardActions>
@@ -54,7 +60,7 @@ export default function ProductActions({
             <RemoveIcon fontSize="small" />
           </IconButton>
           <Typography variant="body1" component="div" mx={1}>
-            {product.itemInCart || 0}
+            {cartItem?.quantity || product.itemInCart || 0}
           </Typography>
           <IconButton
             disabled={product.loading}
