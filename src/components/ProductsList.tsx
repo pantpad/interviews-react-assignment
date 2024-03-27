@@ -4,13 +4,12 @@ import ProductItem from "./Product/Product";
 
 type ProductListType = {
   products: Product[];
-  addToCart: (id: number, quantity: number) => void;
+  //addToCart: (id: number, quantity: number) => void;
   lastElementRef: React.Ref<HTMLDivElement>;
 };
 
 export default function ProductList({
   products,
-  addToCart,
   lastElementRef,
 }: ProductListType) {
   return (
@@ -19,7 +18,6 @@ export default function ProductList({
         <ProductItem
           key={product.id}
           product={product}
-          addToCart={addToCart}
           ref={products.length - 1 === i ? lastElementRef : null}
         />
       ))}

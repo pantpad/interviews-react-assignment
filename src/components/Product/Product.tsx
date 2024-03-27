@@ -9,23 +9,21 @@ import { forwardRef } from "react";
 
 type ProductItemType = {
   product: Product;
-  addToCart: (id: number, quantity: number) => void;
 };
 
 export default forwardRef(function ProductItem(
-  { product, addToCart }: ProductItemType,
+  { product }: ProductItemType,
   ref: React.Ref<HTMLDivElement>
 ) {
+  //console.log("product", product.name);
   return (
-    <>
-      <Grid item xs={4}>
-        {/* Do not remove this */}
-        <HeavyComponent />
-        <Card style={{ width: "100%" }} ref={ref}>
-          <ProductContent product={product} />
-          <ProductActions product={product} addToCart={addToCart} />
-        </Card>
-      </Grid>
-    </>
+    <Grid item xs={4}>
+      {/* Do not remove this */}
+      <HeavyComponent />
+      <Card style={{ width: "100%" }} ref={ref}>
+        <ProductContent product={product} />
+        <ProductActions product={product} />
+      </Card>
+    </Grid>
   );
 });
