@@ -2,7 +2,7 @@ import { memo } from "react";
 
 import { Box, CircularProgress } from "@mui/material";
 
-import { useAppDispatch } from "./store/hooks.ts";
+import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
 import { setCart } from "./slices/cartSlice.ts";
 
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
@@ -24,6 +24,8 @@ export type Cart = {
 export const Products = memo(
   ({ filter, category }: { filter: string; category: string }) => {
     const dispatch = useAppDispatch();
+    const cart = useAppSelector((state) => state.cart.value);
+
     const {
       data: products,
       isLoading,
@@ -65,7 +67,19 @@ export const Products = memo(
         return clonedProducts;
       });
       //optimistically update cart
-
+      dispatch(
+        setCart({
+          items: [
+            ...cart.items,
+            {
+              product: products[productId],
+              quantity,
+            },
+          ],
+          totalPrice: cart.totalPrice + products[productId].price * quantity,
+          totalItems: cart.totalItems + quantity,
+        } as Cart)
+      );
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
       fetch("/cart", {
@@ -76,8 +90,8 @@ export const Products = memo(
         body: JSON.stringify({ productId, quantity }),
       }).then(async (response) => {
         if (response.ok) {
-          const cart = await response.json();
-          console.log(cart);
+          const cartResponse = await response.json();
+          console.log(cartResponse);
           setProducts((prevProducts) => {
             const clonedProducts = [...prevProducts];
             clonedProducts[productId] = {
@@ -86,7 +100,7 @@ export const Products = memo(
             };
             return clonedProducts;
           });
-          dispatch(setCart(cart));
+          dispatch(setCart(cartResponse));
         }
       });
     }
