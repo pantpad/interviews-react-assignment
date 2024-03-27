@@ -13,7 +13,7 @@ import Error from "./components/Error.tsx";
 import ProductList from "./components/ProductsList.tsx";
 import { Product } from "./types/ProductType.ts";
 
-const ITEMS_PER_PAGE = 200;
+const ITEMS_PER_PAGE = 10;
 
 export type Cart = {
   items: Product[];
@@ -57,45 +57,28 @@ export const Products = memo(
       //toggle current product loading state to true in order to:
       //disable further button pression
       //make spinner load
-      // setProducts((prevProducts) => {
-      //   const clonedProducts = [...prevProducts];
-      //   clonedProducts[productId] = {
-      //     ...clonedProducts[productId],
-      //     loading: true,
-      //     itemInCart: (clonedProducts[productId].itemInCart || 0) + quantity,
-      //   };
-      //   return clonedProducts;
-      // });
+      setProducts((prevProducts) => {
+        const clonedProducts = [...prevProducts];
+        clonedProducts[productId] = {
+          ...clonedProducts[productId],
+          loading: true,
+          itemInCart: (clonedProducts[productId].itemInCart || 0) + quantity,
+        };
+        return clonedProducts;
+      });
       //optimistically update cart
       const prevCartState = {
         items: [...cart.items],
         totalPrice: cart.totalPrice,
         totalItems: cart.totalItems,
       };
-      const item = cart.items.find((item) => item.product.id === productId);
-      if (item) {
-        dispatch(
-          setCart({
-            items: [...cart.items],
-            totalPrice: cart.totalPrice + products[productId].price * quantity,
-            totalItems: cart.totalItems + quantity,
-          })
-        );
-      } else {
-        dispatch(
-          setCart({
-            items: [
-              ...cart.items,
-              {
-                product: products[productId],
-                quantity,
-              },
-            ],
-            totalPrice: cart.totalPrice + products[productId].price * quantity,
-            totalItems: cart.totalItems + quantity,
-          })
-        );
-      }
+      dispatch(
+        setCart({
+          items: [...cart.items],
+          totalPrice: cart.totalPrice + products[productId].price * quantity,
+          totalItems: cart.totalItems + quantity,
+        })
+      );
 
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
