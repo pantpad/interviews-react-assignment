@@ -32,29 +32,30 @@ export const cartSlice = createSlice({
     addItemToCart(state, action) {
       //check if item is in cart
       const inCart = state.value.items.find(
-        (item) => item.product.id === action.payload.id
+        (item) => item.product.id === action.payload.product.id
       );
       //if it is, increment quantity
       if (inCart) {
         state.value.items = state.value.items.map((item) =>
-          item.product.id === action.payload.id
+          item.product.id === action.payload.product.id
             ? {
-                product: { ...action.payload },
-                quantity: (inCart.quantity += 1),
+                product: { ...action.payload.product },
+                quantity: (inCart.quantity += action.payload.value),
               }
             : item
         );
       } else {
-        state.value.items = [
-          ...state.value.items,
-          {
-            product: { ...action.payload },
-            quantity: 1,
-          },
-        ];
+        state.value.items =
+          action.payload.value === 1
+            ? [
+                ...state.value.items,
+                {
+                  product: { ...action.payload.product },
+                  quantity: 1,
+                },
+              ]
+            : [...state.value.items];
       }
-      console.log(state.value.items, "items");
-      console.log(state.value.totalItems, "totalItems");
       const totalPrice = state.value.items.reduce(
         (acc, { product, quantity }) => acc + product.price * quantity,
         0

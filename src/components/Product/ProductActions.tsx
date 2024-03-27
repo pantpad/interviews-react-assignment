@@ -59,14 +59,15 @@ export default function ProductActions({
             onClick={() => {
               //product.loading = true;
               startTransition(() => {
-                addToCart(product.id, -1);
+                //addToCart(product.id, -1);
+                dispatch(addItemToCart({ product, value: 1 }));
               });
             }}
           >
             <RemoveIcon fontSize="small" />
           </IconButton>
           <Typography variant="body1" component="div" mx={1}>
-            {product.itemInCart || cartItem?.quantity || 0}
+            {cartItem?.quantity || 0}
           </Typography>
           <IconButton
             disabled={product.loading}
@@ -76,7 +77,7 @@ export default function ProductActions({
               //product.loading = true;
               startTransition(() => {
                 //addToCart(product.id, 1);
-                dispatch(addItemToCart(product));
+                dispatch(addItemToCart({ product, value: 1 }));
               });
             }}
           >
