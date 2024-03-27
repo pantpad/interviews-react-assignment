@@ -36,14 +36,20 @@ export const cartSlice = createSlice({
       );
       //if it is, increment quantity
       if (inCart) {
-        state.value.items = state.value.items.map((item) =>
-          item.product.id === action.payload.product.id
-            ? {
-                product: { ...action.payload.product },
-                quantity: (inCart.quantity += action.payload.value),
-              }
-            : item
-        );
+        if (inCart.quantity + action.payload.value === 0) {
+          state.value.items = state.value.items.filter(
+            (item) => item.product.id !== action.payload.product.id
+          );
+        } else {
+          state.value.items = state.value.items.map((item) =>
+            item.product.id === action.payload.product.id
+              ? {
+                  product: { ...action.payload.product },
+                  quantity: (inCart.quantity += action.payload.value),
+                }
+              : item
+          );
+        }
       } else {
         state.value.items =
           action.payload.value === 1
@@ -56,6 +62,7 @@ export const cartSlice = createSlice({
               ]
             : [...state.value.items];
       }
+
       const totalPrice = state.value.items.reduce(
         (acc, { product, quantity }) => acc + product.price * quantity,
         0

@@ -60,7 +60,7 @@ export default function ProductActions({
               //product.loading = true;
               startTransition(() => {
                 //addToCart(product.id, -1);
-                dispatch(addItemToCart({ product, value: 1 }));
+                dispatch(addItemToCart({ product, value: -1 }));
               });
             }}
           >
