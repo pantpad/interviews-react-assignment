@@ -37,7 +37,7 @@ export const cartSlice = createSlice({
       //if it is, check if quantity + value passed is 0
       if (inCart) {
         //remove item if quantity reaches 0
-        if (inCart.quantity + action.payload.value === 0) {
+        if (inCart.quantity + action.payload.value < 0) {
           state.value.items = state.value.items.filter(
             (item) => item.product.id !== action.payload.product.id
           );

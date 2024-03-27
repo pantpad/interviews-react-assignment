@@ -46,6 +46,7 @@ export default function ProductActions({ product }: ProductActionsType) {
         body: JSON.stringify({ productId: product.id, quantity }),
       });
       if (!cartResponse.ok) {
+        console.log(cartResponse);
         dispatch(setCart(prevCartState));
       }
       const cartValue = await cartResponse.json();
@@ -87,11 +88,15 @@ export default function ProductActions({ product }: ProductActionsType) {
             aria-label="delete"
             size="small"
             onClick={() => {
-              //product.loading = true;
+              const prevCartState = {
+                items: [...cart.items],
+                totalPrice: cart.totalPrice,
+                totalItems: cart.totalItems,
+              };
               startTransition(() => {
-                //addToCart(product.id, -1);
                 dispatch(addItemToCart({ product, value: -1 }));
               });
+              postCart(prevCartState, -1);
             }}
           >
             <RemoveIcon fontSize="small" />
