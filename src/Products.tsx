@@ -3,7 +3,7 @@ import { memo } from "react";
 import { Box, CircularProgress } from "@mui/material";
 
 import { useAppDispatch, useAppSelector } from "./store/hooks.ts";
-import { setCart } from "./slices/cartSlice.ts";
+import { setCart, addItemToCart } from "./slices/cartSlice.ts";
 
 import useIntersectionObserver from "./hooks/useIntersectionObserver.tsx";
 import useFetchProducts from "./hooks/useFetchProducts.tsx";
@@ -72,19 +72,31 @@ export const Products = memo(
         totalPrice: cart.totalPrice,
         totalItems: cart.totalItems,
       };
-      dispatch(
-        setCart({
-          items: [
-            ...cart.items,
-            {
-              product: products[productId],
-              quantity,
-            },
-          ],
-          totalPrice: cart.totalPrice + products[productId].price * quantity,
-          totalItems: cart.totalItems + quantity,
-        })
-      );
+      const item = cart.items.find((item) => item.product.id === productId);
+      if (item) {
+        dispatch(
+          setCart({
+            items: [...cart.items],
+            totalPrice: cart.totalPrice + products[productId].price * quantity,
+            totalItems: cart.totalItems + quantity,
+          })
+        );
+      } else {
+        dispatch(
+          setCart({
+            items: [
+              ...cart.items,
+              {
+                product: products[productId],
+                quantity,
+              },
+            ],
+            totalPrice: cart.totalPrice + products[productId].price * quantity,
+            totalItems: cart.totalItems + quantity,
+          })
+        );
+      }
+
       //fetch to update cart on db,returns updated cart object set to the cart state in app using onCartChange
       //inside we also toggle the current product loadingState to false.
       fetch("/cart", {

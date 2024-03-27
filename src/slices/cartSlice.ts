@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { Product } from "../types/ProductType";
-// import { PayloadAction } from "@reduxjs/toolkit";
+//import { PayloadAction } from "@reduxjs/toolkit";
 // import { RootState } from "../store/store";
 
 interface CartItem {
@@ -29,18 +29,18 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart(state, action) {
+    addItemToCart(state, action) {
+      console.log(action.payload);
       const item = state.value.items.find(
         (item) => item.product.id === action.payload.id
       );
       if (item) {
         item.quantity += action.payload.quantity;
+        state.value.totalPrice += item.product.price * action.payload.quantity;
       } else {
         state.value.items.push(action.payload);
       }
       state.value.totalItems += action.payload.quantity;
-      state.value.totalPrice +=
-        action.payload.product.price * action.payload.quantity;
     },
     setCart: (state, action) => {
       state.value = action.payload;
@@ -48,6 +48,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { setCart } = cartSlice.actions;
+export const { setCart, addItemToCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
