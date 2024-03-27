@@ -27,9 +27,12 @@ export const cartSlice = createSlice({
     addItem: (state) => {
       console.log(state.value.items.push({} as Product));
     },
+    setCart: (state, action) => {
+      state.value = action.payload;
+    },
   },
 });
 
-export const { addItem } = cartSlice.actions;
+export const { addItem, setCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

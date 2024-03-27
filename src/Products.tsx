@@ -19,15 +19,7 @@ export type Cart = {
 };
 
 export const Products = memo(
-  ({
-    onCartChange,
-    filter,
-    category,
-  }: {
-    onCartChange: (cart: Cart) => void;
-    filter: string;
-    category: string;
-  }) => {
+  ({ filter, category }: { filter: string; category: string }) => {
     const {
       data: products,
       isLoading,
