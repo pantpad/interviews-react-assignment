@@ -1,29 +1,38 @@
-import { Cart, Products } from './Products.tsx';
-import { Box, CssBaseline } from '@mui/material';
-import SearchAppBar from './SearchAppBar.tsx';
-import { Categories } from './Categories.tsx';
-import { useState } from 'react';
+import { useState, useDeferredValue } from "react";
+
+import { useAppSelector } from "./store/hooks.ts";
+
+import { Box, CssBaseline } from "@mui/material";
+
+import { Products } from "./Products.tsx";
+import SearchAppBar from "./SearchAppBar.tsx";
+import { Categories } from "./Categories.tsx";
 
 function App() {
-
-  const [cart, setCart] = useState<Cart>();
-
-
-  function onCartChange(cart: Cart) {
-    setCart(cart);
-  }
+  const cart = useAppSelector((state) => state.cart.value);
+  const [currentCategory, setCurrentCategory] = useState("");
+  const [currentFilter, setCurrentFilter] = useState("");
+  const deferredFilter = useDeferredValue(currentFilter);
+  const deferredCategory = useDeferredValue(currentCategory);
 
   return (
     <Box height="100vh" display="flex" flexDirection="column">
-      <CssBaseline/>
-      <SearchAppBar quantity={cart?.totalItems || 0} price={cart?.totalPrice || 0}/>
+      <CssBaseline />
+      <SearchAppBar
+        quantity={cart?.totalItems || 0}
+        price={cart?.totalPrice || 0}
+        setFilter={setCurrentFilter}
+        filter={currentFilter}
+      />
       <Box flex={1} display="flex" flexDirection="row">
-        <Categories/>
+        <Categories
+          onCategoryChange={setCurrentCategory}
+          category={currentCategory}
+        />
         <Box flex={1}>
-          <Products onCartChange={onCartChange}/>
+          <Products filter={deferredFilter} category={deferredCategory} />
         </Box>
       </Box>
-
     </Box>
   );
 }
